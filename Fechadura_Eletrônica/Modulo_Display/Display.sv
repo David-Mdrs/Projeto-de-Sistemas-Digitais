@@ -21,9 +21,9 @@ module display (
 	always_ff @(posedge clk or posedge rst) begin
 		if (rst) begin
 			bcd_atual <= '{default: 4'hB};
-        end else if (enable_o) begin
+        end else if (enable_o == 1) begin
 			bcd_atual <= bcd_packet_operacional;
-        end else if (enable_s) begin
+        end else if (enable_s == 1) begin
 			bcd_atual <= bcd_packet_setup;
         end
 	end
