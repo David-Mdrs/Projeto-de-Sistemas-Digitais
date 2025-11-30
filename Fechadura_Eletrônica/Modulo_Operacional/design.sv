@@ -53,7 +53,6 @@ module operacional (
     logic [31:0] db_botao_config;
     logic [31:0] db_botao_interno;
     
-    logic [3:0]  estado_anterior;
     logic [2:0]  tentativas;
 
     enum logic [3:0] {
@@ -113,7 +112,7 @@ module operacional (
                   	db_botao_interno <= 0;
                   	contador_nao_perturbe <= 0;
                   	estado_anterior <= NAO_PERTURBE;
-                  	if (botao_interno) <= estado <= DB_BOTAO_INTERNO;
+                  	if (botao_interno) estado <= DB_BOTAO_INTERNO;
                 end
               	
               	DB_BOTAO_INTERNO: begin
@@ -129,8 +128,8 @@ module operacional (
                 	contador_tranca <= contador_tranca + 1;
 					estado_anterior <= PORTA_ENCOSTADA;
                   	if (botao_interno) estado <= DB_BOTAO_INTERNO;
-                  	else if (contador_tranca >= data_setup_new.tranc_out_time) estado <= PORTA_FECHADA;
-                  	else if (sensor_contato) estodo <= PORTA_ABERTA;
+                  	else if (contador_tranca >= data_setup_new.tranca_aut_time) estado <= PORTA_FECHADA;
+                  	else if (sensor_contato) estado <= PORTA_ABERTA;
                 end
               
               	EXPIRADO: begin
@@ -141,7 +140,7 @@ module operacional (
                   	contador_bip <= contador_bip + 1;
 					db_botao_config <= 0;
 					estado_anterior <= PORTA_ABERTA;
-                  	if (contador_bip >= data_setup_new.time_bip) estado <= PORTA_BIP;
+                  	if (contador_bip >= data_setup_new.bip_time) estado <= PORTA_BIP;
                   	else if (botao_config) estado <= DB_BOTAO_CONFIG;
                 end
               
@@ -167,8 +166,8 @@ module operacional (
                 end
               
               	BLOQUEADO: begin
-                  	contador <= contador + 1;
-                  	if (contador >= 30000) estado <= PORTA_FECHADA;
+                  	contador_bloqueado <= contador_bloqueado + 1;
+                  	if (contador_bloqueado >= 30000) estado <= PORTA_FECHADA;
                 end
               
               	SETUP: begin
