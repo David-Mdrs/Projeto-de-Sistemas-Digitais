@@ -128,7 +128,7 @@ module operacional (
                 	contador_tranca <= contador_tranca + 1;
 					estado_anterior <= PORTA_ENCOSTADA;
                   	if (botao_interno) estado <= DB_BOTAO_INTERNO;
-                  	else if (contador_tranca >= data_setup_new.tranca_aut_time) estado <= PORTA_FECHADA;
+                  	else if (contador_tranca >= data_setup_new.tranca_aut_time * 1000) estado <= PORTA_FECHADA;
                   	else if (sensor_contato) estado <= PORTA_ABERTA;
                 end
               
@@ -140,7 +140,7 @@ module operacional (
                   	contador_bip <= contador_bip + 1;
 					db_botao_config <= 0;
 					estado_anterior <= PORTA_ABERTA;
-                  	if (contador_bip >= data_setup_new.bip_time) estado <= PORTA_BIP;
+                  if (contador_bip >= data_setup_new.bip_time * 1000) estado <= PORTA_BIP;
                   	else if (botao_config) estado <= DB_BOTAO_CONFIG;
                 end
               
@@ -162,7 +162,7 @@ module operacional (
                   	contador_bloqueado <= 0;
                   	tentativas <= tentativas + 1;
                   	if (tentativas < 5) estado <= PORTA_FECHADA;
-                  	else estado <= estado <= BLOQUEADO;
+                  	else estado <= BLOQUEADO;
                 end
               
               	BLOQUEADO: begin
